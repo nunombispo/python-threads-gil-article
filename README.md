@@ -15,7 +15,7 @@ This repo is the copy-paste lab: a stdlib-only threaded benchmark, a GIL detecto
 uv python install 3.14 3.14t
 ```
 
-`.python-version` pins `3.14t` so `uv run` in this project cannot silently fall back to the GIL build. `requires-python` in `pyproject.toml` stays `>=3.14` — the `t` suffix is a build variant, not a language version.
+`.python-version` pins `3.14+freethreaded` (same build as `3.14t`) so `uv run` in this project cannot silently fall back to the GIL build. `requires-python` in `pyproject.toml` stays `>=3.14` — freethreaded is a build variant, not a language version.
 
 ## Run the benchmark
 
@@ -40,7 +40,8 @@ The workload is pure-Python parse-and-fold on purpose. `hashlib` and NumPy can r
 ```bash
 uv run --python 3.14t python gil_detector.py
 uv run --python 3.14t python gil_detector.py json hashlib
-uv run --python 3.14t python gil_detector.py numpy pandas pydantic fastapi
+uv run --python 3.14t --with numpy --with pandas --with pydantic --with fastapi \
+  python gil_detector.py numpy pandas pydantic fastapi
 ```
 
 ## The gotcha
